@@ -19,7 +19,7 @@ To give the model a "trader's perspective," I integrated 6 key features:
 - **Input Shape:** (Batch, 30 Days Window, 6 Features)
 - **Hidden Layers:** 128 units for higher complexity handling.
 - **Optimization:** Adam Optimizer with Mean Squared Error (MSE) loss.
-- **Scaling:** MinMaxScaler used to normalize diverse feature ranges (e.g., Volume vs RSI).
+- **Scaling:** MinMaxScaler used to normalize diverse feature ranges (e.g., Volume vs RSI)
 
 ## 🛠️ Challenges Solved
 - **Fixed Model Collapse:** Resolved the "Flat Line" prediction issue by implementing a shuffled DataLoader and optimizing the loss function.
