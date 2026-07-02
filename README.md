@@ -1,35 +1,41 @@
-# 📈 Apple Inc. (AAPL) Advanced Stock Price Prediction using Multivariate LSTM
+# 📈 Apple Inc. (AAPL) Multivariate Stock Price Prediction
 
-This project implements a professional-grade deep learning model to predict the daily closing price of Apple Inc. (AAPL). Unlike basic models that only use the closing price, this project utilizes a **Multivariate LSTM (Long Short-Term Memory)** network to capture complex market patterns.
+## 📌 Project Overview
+This project implements a Time-Series Forecasting model to predict the closing price of AAPL stock. Unlike univariate models, this project uses a **Multivariate approach**, incorporating technical indicators to provide the model with deeper market context.
 
-## 🚀 Project Evolution: From Univariate to Multivariate
-Initially, the project used a Univariate approach (only Close Price). To increase accuracy and robustness, I upgraded the model to a **Multivariate Architecture**, incorporating **Feature Engineering** to provide the model with market context.
+## 🛠 Tech Stack
+- **Language:** Python
+- **Deep Learning Framework:** PyTorch
+- **Data Handling:** Pandas, NumPy, YFinance
+- **Preprocessing:** Scikit-Learn (MinMaxScaler)
+- **Indicators:** SMA, EMA, RSI, Volatility
 
-## 🛠️ Technical Indicators (Feature Engineering)
-To give the model a "trader's perspective," I integrated 6 key features:
-1. **Closing Price:** The primary target variable.
-2. **Trading Volume:** To confirm the strength of price movements.
-3. **SMA (Simple Moving Average - 50 Days):** To identify the long-term trend.
-4. **EMA (Exponential Moving Average - 50 Days):** To capture fast-reacting trend changes.
-5. **RSI (Relative Strength Index - 14 Days):** To detect overbought and oversold conditions (Momentum).
-6. **Volatility (50-Day Std Dev):** To measure market instability and risk.
+## 🧬 Feature Engineering
+To improve accuracy, the following 6 features were used:
+1. **Close Price:** The target variable.
+2. **Volume:** Trading activity.
+3. **SMA (50):** Long-term trend.
+4. **EMA (50):** Fast trend sensitivity.
+5. **RSI (14):** Momentum and overbought/oversold conditions.
+6. **Volatility (50):** Market stability measurement.
 
-## 🧠 Model Architecture
-- **Model:** Stacked LSTM (2 Layers)
-- **Input Shape:** (Batch, 30 Days Window, 6 Features)
-- **Hidden Layers:** 128 units for higher complexity handling.
-- **Optimization:** Adam Optimizer with Mean Squared Error (MSE) loss.
-- **Scaling:** MinMaxScaler used to normalize diverse feature ranges (e.g., Volume vs RSI)
+## 🔬 Comparative Analysis
 
-## 🛠️ Challenges Solved
-- **Fixed Model Collapse:** Resolved the "Flat Line" prediction issue by implementing a shuffled DataLoader and optimizing the loss function.
-- **Reduced Lag:** Increased the hidden layer capacity to 128 units to better track high-volatility peaks.
-- **Data Leakage Prevention:** Ensured proper temporal splitting to maintain the integrity of the test set.
+### 1. LSTM vs GRU
+I implemented both LSTM and GRU architectures. While the **LSTM** provided high accuracy, the **GRU** achieved nearly identical results with significantly faster training times and fewer parameters, making it more efficient for this dataset.
 
-## 📈 Results
-The model successfully tracks the actual stock price with high precision, capturing both the overall trend and short-term volatility of AAPL.
+### 2. Impact of Window Size
+I experimented with different sliding window sizes:
+- **Window 30:** Resulted in higher lag and lower accuracy.
+- **Window 50:** Provided the best results as it aligned with the rolling indicators, allowing the model to capture the 50-day trend more effectively.
 
-## ⚙️ How to Run
-1. Open the `.ipynb` file in Google Colab.
-2. Set Runtime to **GPU (T4)**.
-3. Run all cells sequentially.
+### 3. Epoch Tuning
+The model was trained for **150 epochs**. Beyond this point, the model showed signs of overfitting, where it began to memorize training noise rather than learning the general trend.
+
+## 📈 Final Results
+The **GRU model with a 50-day window** emerged as the best performing architecture, successfully capturing the price trends with minimal error.
+
+## 🚀 How to Run
+1. Clone the repo: `git clone https://github.com/yourusername/AAPL-Stock-Prediction.git`
+2. Install requirements: `pip install -r requirements.txt`
+3. Run the notebooks in the `/notebooks` folder.
