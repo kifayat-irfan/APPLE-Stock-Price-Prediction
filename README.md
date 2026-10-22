@@ -24,18 +24,23 @@ To improve accuracy, the following 6 features were used:
 ### 1. LSTM vs GRU
 I implemented both LSTM and GRU architectures. While the **LSTM** provided high accuracy, the **GRU** achieved nearly identical results with significantly faster training times and fewer parameters, making it more efficient for this dataset.
 
-### 2. Impact of Window Size
-I experimented with different sliding window sizes:
-- **Window 30:** Resulted in higher lag and lower accuracy.
-- **Window 50:** Provided the best results as it aligned with the rolling indicators, allowing the model to capture the 50-day trend more effectively.
+### 2. Window Size
+I used a **50-day sliding window**, chosen to align with the 50-day rolling indicators (SMA, EMA, Volatility) so the model gets enough context to interpret those features. I did not run a full comparison against other window sizes.
 
-### 3. Epoch Tuning
-The model was trained for **150 epochs**. Beyond this point, the model showed signs of overfitting, where it began to memorize training noise rather than learning the general trend.
+### 3. Training
+Each model was trained for **150 epochs** (Adam, learning rate 0.001, MSE loss, batch size 32). Final training losses converged to around 0.0003–0.0006 on the scaled data. I did not track a validation curve, so I make no claim about where overfitting would begin.
 
 ## 📈 Final Results
-The **GRU model with a 50-day window** emerged as the best performing architecture, successfully capturing the price trends with minimal error.
+The **GRU model with a 50-day window** is my preferred architecture — it captures the price trends as well as the LSTM with fewer parameters and faster training (GRU final loss: 0.000334). Note this is an educational exercise, not investment advice.
 
 ## 🚀 How to Run
-1. Clone the repo: `git clone https://github.com/yourusername/AAPL-Stock-Prediction.git`
-2. Install requirements: `pip install -r requirements.txt`
-3. Run the notebooks in the `/notebooks` folder.
+1. Clone the repo: `git clone https://github.com/kifayat-irfan/APPLE-Stock-Price-Prediction.git`
+2. Install requirements: `pip install -r requirements.txt` (the notebooks also install `numpy<2.0` first for pandas compatibility)
+3. Run the notebooks in the `/notebooks` folder — data is fetched from Yahoo Finance via `yfinance` and saved to `/data/AAPL_featured_data.csv`.
+
+## 📁 Project Structure
+- `notebooks/LSTM_Prediction.ipynb` — data download, feature engineering, LSTM training, results plot
+- `notebooks/GRU_Prediction.ipynb` — same pipeline with the GRU architecture
+- `data/AAPL_featured_data.csv` — AAPL data with the 6 engineered features
+- `results/` — final actual-vs-predicted plots for both models
+- `report.md` — full write-up of the methodology and findings
